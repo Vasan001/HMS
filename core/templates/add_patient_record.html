@@ -1,0 +1,16 @@
+<form method="get" class="mb-4">
+    <label for="admission_number">Enter Patient Admission Number:</label>
+    <input type="text" name="admission_number" class="form-control" required value="{{ request.GET.admission_number }}">
+    <button type="submit" class="btn btn-primary mt-2">Search</button>
+  </form>
+  
+  {% if patient %}
+    <h5 class="mt-4">Patient: {{ patient.name }} ({{ patient.admission_number }})</h5>
+    <p>DOB: {{ patient.date_of_birth }} | Contact: {{ patient.contact }}</p>
+  
+    <a href="{% url 'add_inpatient' patient.id %}" class="btn btn-success mt-2">Add as Inpatient</a>
+    <a href="{% url 'add_outpatient' patient.id %}" class="btn btn-info mt-2">Add as Outpatient</a>
+  {% elif request.GET.admission_number %}
+    <p class="text-danger">No patient found with that admission number.</p>
+  {% endif %}
+  

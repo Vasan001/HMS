@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Staff Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f9ff;
+    }
+    .card-title {
+      font-weight: 600;
+    }
+    .btn-light {
+      font-weight: 500;
+    }
+    .dashboard-card {
+      transition: transform 0.2s ease;
+    }
+    .dashboard-card:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="mb-4 text-center">
+      <h2>Welcome, {{ staff.name }}</h2>
+      <p class="text-muted">Hospital Staff Dashboard</p>
+    </div>
+
+    <div class="row">
+      <!-- Staff Profile -->
+      <div class="col-md-6 mb-4">
+        <div class="card dashboard-card border-primary">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">My Profile</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Name:</strong> {{ staff.name }}</p>
+            <p><strong>DOB:</strong> {{ staff.date_of_birth }}</p>
+            <p><strong>Gender:</strong> {{ staff.gender }}</p>
+            <p><strong>Role:</strong> {{ staff.role }}</p>
+            <p><strong>Qualification:</strong> {{ staff.qualification }}</p>
+            <p><strong>Contact:</strong> {{ staff.contact }}</p>
+            <p><strong>Address:</strong> {{ staff.address }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Records Section -->
+      <div class="col-md-6 mb-4">
+        <div class="card dashboard-card border-success">
+          <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">Patient Records</h5>
+          </div>
+          <div class="card-body">
+            <p>Manage Inpatient & Outpatient Records Efficiently</p>
+            <a href="{% url 'patient_records' %}" class="btn btn-outline-success me-2">Go to Records</a>
+            <a href="{% url 'add_patient_record' %}" class="btn btn-outline-primary">Add Patient Record</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card dashboard-card border-info">
+        <div class="card-header bg-info text-white">
+          <h5 class="card-title mb-0">Today's Appointments</h5>
+        </div>
+        <div class="card-body">
+          <p>View all scheduled appointments for today</p>
+          <a href="{% url 'today_appointments' %}" class="btn btn-outline-info">View Today's Appointments</a>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Logout Button -->
+    <div class="text-end mt-4">
+      <a href="{% url 'login' %}" class="btn btn-danger">Logout</a>
+    </div>
+  </div>
+</body>
+</html>

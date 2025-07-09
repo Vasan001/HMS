@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+  <h4>Welcome, {{ profile.name }}</h4>
+  <p><strong>PIN / PHR ID:</strong> {{ profile.admission_number }}</p>
+  
+  <!-- Patient Profile -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Patient Details</strong>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Name: {{ profile.name}}</li>
+      <li class="list-group-item">PIN / PHR ID: {{ profile.admission_number }}</li>
+      <li class="list-group-item">Date of Birth: {{profile.date_of_birth }}</li>
+      <li class="list-group-item">Age: {{ age }}</li>
+      <li class="list-group-item">Gender: {{ profile.gender }}</li>
+      <li class="list-group-item">Is Differently Abled Person: {% if profile.is_differently_abled %}Yes{% else %}No{% endif %}</li>
+      <li class="list-group-item">Contact: {{ profile.contact }}</li>
+      <li class="list-group-item">Aadhaar: {{ profile.aadhaar_number }}</li>
+
+      <li class="list-group-item">Address: {{ profile.address }}</li>
+    </ul>
+  </div>
+
+  <!-- Bootstrap Alert for Token Number -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Appointment Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>Book Appointment</strong>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" value="{{ profile.name }}" readonly>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Age</label>
+          <input type="number" class="form-control" value="{{ age }}" readonly>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Appointment Date</label>
+          <input type="text" class="form-control" value="{{ today }}" readonly>
+        </div>
+        <div class="mb-3">
+          {{ form.is_pregnant }}
+  <label class="form-check-label" for="{{ form.is_pregnant.id_for_label }}">
+    Is Pregnant
+  </label>
+        </div>
+        <div class="mb-3">
+          {{ form.is_differently_abled }}
+  <label class="form-check-label" for="{{ form.is_differently_abled.id_for_label }}">
+    Is Differently Abled
+  </label>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Symptom or Disease</label>
+          {{ form.symptom_or_disease }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">PIN / PHR ID</label>
+          <input type="text" class="form-control" value="{{ profile.admission_number }}" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Appointment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Appointment History -->
+  <div class="card">
+    <div class="card-header">
+      <strong>Your Appointment History</strong>
+    </div>
+    <table class="table table-bordered mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Token Number</th>
+          <th>PIN / PHR ID:</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Appointment Date</th>
+          <th>Priority</th>
+          
+          <th>Status</th>
+          <th>Appointment Submitted Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appt in appointments %}
+          <tr>
+            <td>{{ appt.token_number }}</td>
+            <td>{{ appt.patient.admission_number }}</td>
+            <td>{{ appt.patient.name }}</td>
+            <td>{{ age }}</td>
+            <td>{{ appt.appointment_date }}</td>
+            <td>{% if appt.is_priority %}Yes{% else %}No{% endif %}</td>
+            <td>{{ appt.status }}</td>
+            <td>{{ appt.submitted_at|date:"Y-m-d H:i:s" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-center">No appointments yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Logout -->
+  <a href="{% url 'login' %}" class="btn btn-danger mt-4">Logout</a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

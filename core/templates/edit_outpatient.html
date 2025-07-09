@@ -1,0 +1,9 @@
+<div class="container mt-4">
+    <h2>Edit Outpatient Record</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'patient_records' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
